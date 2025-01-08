@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import posts from '../data/posts'; 
-import axios from 'axios'; 
+import posts from '../data/posts';
+import axios from 'axios';
 
 const api = "http://localhost:3000";
 
@@ -27,31 +27,46 @@ function App() {
 
   const createPost = (event) => {
     event.preventDefault();
-    setPost([...post, { id: Date.now(), title: newPost.title }]);
-    setNewPost(initialFormData); 
+    axios.post(`${api}/post`, newPost).then((resp) => {
+      console.log(resp)
+      const newPostApi = resp.data;
+
+      const newPostList = [
+        ...post, newPostApi
+      ]
+      setPost(newPostList)
+    })
   };
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setNewPost((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+
+    const keyToChange = event.target.name;
+    const newData = {
+      ...newPost,
+      [keyToChange]: event.target.value
+    }
+    setNewPost(newData)
   };
 
   const deletePost = (postId) => {
-    setPost(post.filter((post) => post.id !== postId));
+    axios.delete(`${api}/post/${postId}`).then((resp) => {
+      const newPostList = post.filter((curPost) => 
+        curPost.id != postId
+      )
+      setPost(newPostList)
+    })
   };
 
   return (
     <>
       <div>
         <form onSubmit={createPost}>
+          <h2>Aggiungi un nuovo post</h2>
           <label htmlFor="title">Contenuto</label>
           <input
             type="text"
             name="title"
-            id="id"
+            id="title"
             value={newPost.title}
             onChange={handleChange}
           />
@@ -60,11 +75,11 @@ function App() {
       </div>
       {post.length !== 0
         ? post.map((curPost) => (
-            <div key={curPost.id}>
-              {curPost.title}
-              <button onClick={() => deletePost(curPost.id)}>Cancella</button>
-            </div>
-          ))
+          <div key={curPost.id}>
+            {curPost.title}
+            <button onClick={() => deletePost(curPost.id)}>Cancella</button>
+          </div>
+        ))
         : <p>La pagina è vuota</p>}
     </>
   );

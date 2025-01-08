@@ -33,7 +33,14 @@ const posts = [
         content: 'La torta paesana è un dolce tradizionale lombardo, semplice e ricco di sapore, nato come ricetta del recupero. Preparata con pane raffermo ammollato nel latte, cacao, uvetta, pinoli e spesso amaretti, è una torta umida e compatta, dal gusto rustico e avvolgente. Perfetta per accompagnare un tè o come dessert casalingo, la torta paesana rappresenta un omaggio alla cucina povera, trasformando pochi ingredienti in un dolce autentico e irresistibile.',
         image: './images/torta_paesana.jpeg',
         tags: ['dolce', 'tradizionale', 'torta']
-    }
+    },
+    // {
+    //     id: 6,
+    //     title: 'debug',
+    //     content: 'debug debug debug debug debug debug debug debug debug debug debug debug debug debug debug debug debug debug debug debug debug',
+    //     image: '',
+    //     tags: ['debug']
+    // }
 ]
 
 module.exports = posts
